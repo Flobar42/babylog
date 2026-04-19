@@ -18,9 +18,9 @@
     --soft: #E8E0D5;
     --card: #FFFCF8;
   }
- 
+
   * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
- 
+
   body {
     background: var(--cream);
     color: var(--ink);
@@ -29,26 +29,26 @@
     display: flex;
     flex-direction: column;
   }
- 
+
   /* ── Header ── */
   header {
     padding: 20px 24px 14px;
     background: var(--card);
     border-bottom: 1px solid var(--soft);
   }
- 
+
   header h1 {
     font-size: 26px;
     letter-spacing: -0.3px;
     margin-bottom: 4px;
   }
- 
+
   .header-date {
     font-size: 12px;
     color: var(--muted);
     font-family: 'Courier New', monospace;
   }
- 
+
   /* ── Last log bar ── */
   .last-log-bar {
     background: var(--warm);
@@ -62,10 +62,10 @@
     align-items: center;
     gap: 8px;
   }
- 
+
   .last-log-bar .ll-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; }
   .last-log-bar .ll-value { color: var(--ink); font-size: 14px; }
- 
+
   /* ── Main ── */
   .main {
     flex: 1;
@@ -77,7 +77,7 @@
     width: 100%;
     margin: 0 auto;
   }
- 
+
   .section-title {
     font-size: 10px;
     text-transform: uppercase;
@@ -86,14 +86,14 @@
     margin-bottom: 10px;
     font-family: 'Courier New', monospace;
   }
- 
+
   /* ── Time row ── */
   .time-row {
     display: flex;
     align-items: center;
     gap: 10px;
   }
- 
+
   .time-row input[type="time"] {
     background: var(--card);
     border: 1px solid var(--soft);
@@ -107,7 +107,7 @@
     flex: 1;
   }
   .time-row input[type="time"]:focus { border-color: var(--accent); }
- 
+
   .now-btn {
     padding: 9px 16px;
     background: var(--ink);
@@ -122,14 +122,14 @@
     transition: opacity 0.15s;
   }
   .now-btn:active { opacity: 0.7; }
- 
+
   /* ── Quick buttons ── */
   .quick-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 10px;
   }
- 
+
   .quick-btn {
     background: var(--card);
     border: 1.5px solid var(--soft);
@@ -145,17 +145,17 @@
     position: relative;
     overflow: hidden;
   }
- 
+
   .quick-btn:active { transform: scale(0.96); }
   .quick-btn .emoji { font-size: 34px; line-height: 1; }
   .quick-btn .label { font-size: 15px; color: var(--ink); }
   .quick-btn .sub { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; font-family: 'Courier New', monospace; }
- 
+
   .quick-btn.sein   { border-color: #E8D5C8; }
   .quick-btn.biberon { border-color: #C8D8E8; }
   .quick-btn.selles { border-color: #D5C8D8; }
   .quick-btn.urines { border-color: #C8E0D5; }
- 
+
   /* ── Notes ── */
   .notes-input {
     width: 100%;
@@ -173,7 +173,7 @@
   }
   .notes-input:focus { border-color: var(--accent); }
   .notes-input::placeholder { color: var(--muted); }
- 
+
   /* ── History ── */
   .history {
     display: flex;
@@ -182,7 +182,7 @@
     max-height: 260px;
     overflow-y: auto;
   }
- 
+
   .history-item {
     background: var(--card);
     border: 1px solid var(--soft);
@@ -193,21 +193,21 @@
     gap: 12px;
     animation: slideIn 0.2s ease;
   }
- 
+
   @keyframes slideIn {
     from { opacity: 0; transform: translateY(-5px); }
     to   { opacity: 1; transform: translateY(0); }
   }
- 
+
   .h-time  { font-size: 13px; font-family: 'Courier New', monospace; min-width: 48px; color: var(--ink); }
   .h-emoji { font-size: 18px; }
   .h-type  { font-size: 13px; color: var(--muted); flex: 1; }
- 
+
   .empty-history { text-align: center; color: var(--muted); font-size: 13px; padding: 20px; font-family: 'Courier New', monospace; }
- 
+
   /* ── Divider ── */
   .divider { height: 1px; background: var(--soft); }
- 
+
   /* ── Config modal ── */
   .config-trigger {
     position: fixed;
@@ -229,7 +229,7 @@
     z-index: 50;
   }
   .config-trigger:active { opacity: 0.7; }
- 
+
   .modal-overlay {
     position: fixed;
     inset: 0;
@@ -245,7 +245,7 @@
     opacity: 1;
     pointer-events: all;
   }
- 
+
   .modal {
     background: var(--card);
     width: 100%;
@@ -259,13 +259,13 @@
   .modal-overlay.open .modal {
     transform: translateY(0);
   }
- 
+
   .modal-title {
     font-size: 16px;
     margin-bottom: 16px;
     color: var(--ink);
   }
- 
+
   .modal label {
     font-size: 11px;
     text-transform: uppercase;
@@ -275,7 +275,7 @@
     margin-bottom: 6px;
     font-family: 'Courier New', monospace;
   }
- 
+
   .modal input[type="url"] {
     width: 100%;
     background: var(--warm);
@@ -290,7 +290,7 @@
   }
   .modal input[type="url"]:focus { border-color: var(--accent); }
   .modal input[type="url"]::placeholder { color: var(--muted); }
- 
+
   .modal-status {
     font-size: 12px;
     font-family: 'Courier New', monospace;
@@ -302,7 +302,7 @@
   }
   .modal-status.ok  { background: #D4EDE7; color: #3A7A6A; }
   .modal-status.err { background: #F0D8D0; color: #9A4A30; }
- 
+
   .modal-close {
     width: 100%;
     padding: 12px;
@@ -316,7 +316,7 @@
     transition: opacity 0.15s;
   }
   .modal-close:active { opacity: 0.7; }
- 
+
   /* ── Confirmation popup ── */
   .confirm-popup {
     position: fixed;
@@ -345,7 +345,7 @@
   .confirm-popup .cp-emoji { font-size: 22px; }
   .confirm-popup .cp-text  { font-size: 13px; color: var(--ink); font-family: 'Courier New', monospace; }
   .confirm-popup .cp-check { font-size: 16px; color: var(--accent2); margin-left: auto; }
- 
+
   /* Scrollbar */
   .history::-webkit-scrollbar { width: 3px; }
   .history::-webkit-scrollbar-track { background: transparent; }
@@ -353,22 +353,22 @@
 </style>
 </head>
 <body>
- 
+
 <!-- Header -->
 <header>
   <h1>👶 Baby Log</h1>
   <div class="header-date" id="headerDate"></div>
 </header>
- 
+
 <!-- Last log bar -->
 <div class="last-log-bar" id="lastLogBar">
   <span class="ll-label">Dernier —</span>
   <span class="ll-value" id="lastLogValue">aucun log</span>
 </div>
- 
+
 <!-- Main content -->
 <div class="main">
- 
+
   <div>
     <div class="section-title">Heure</div>
     <div class="time-row">
@@ -376,9 +376,9 @@
       <button class="now-btn" onclick="setNow()">⟳ Maintenant</button>
     </div>
   </div>
- 
+
   <div class="divider"></div>
- 
+
   <div>
     <div class="section-title">Enregistrer</div>
     <div class="quick-grid">
@@ -404,26 +404,26 @@
       </button>
     </div>
   </div>
- 
+
   <div>
     <div class="section-title">Note (optionnel)</div>
     <textarea class="notes-input" id="notes" placeholder="Durée, quantité, remarque…"></textarea>
   </div>
- 
+
   <div class="divider"></div>
- 
+
   <div>
     <div class="section-title">Aujourd'hui</div>
     <div class="history" id="history">
       <div class="empty-history">Aucune entrée pour le moment</div>
     </div>
   </div>
- 
+
 </div>
- 
+
 <!-- Config button (gear) -->
 <button class="config-trigger" onclick="openModal()" title="Paramètres">⚙</button>
- 
+
 <!-- Config modal -->
 <div class="modal-overlay" id="modalOverlay" onclick="handleOverlayClick(event)">
   <div class="modal">
@@ -434,21 +434,21 @@
     <button class="modal-close" onclick="closeModal()">Fermer</button>
   </div>
 </div>
- 
+
 <!-- Confirmation popup -->
 <div class="confirm-popup" id="confirmPopup">
   <span class="cp-emoji" id="cpEmoji"></span>
   <span class="cp-text"  id="cpText"></span>
   <span class="cp-check" id="cpCheck"></span>
 </div>
- 
+
 <script>
   // ── State ───────────────────────────────────────────────
   let entries = JSON.parse(localStorage.getItem('babylog_v3') || '[]');
   let scriptUrl = localStorage.getItem('babylog_url') || '';
   let timeManuallySet = false;
   let popupTimer = null;
- 
+
   // ── Init ────────────────────────────────────────────────
   setNow();
   updateHeaderDate();
@@ -458,11 +458,11 @@
     document.getElementById('scriptUrl').value = scriptUrl;
     setModalStatus('configured');
   }
- 
+
   document.getElementById('timeInput').addEventListener('change', () => {
     timeManuallySet = true;
   });
- 
+
   // ── Time ────────────────────────────────────────────────
   function setNow() {
     const now = new Date();
@@ -470,48 +470,48 @@
       String(now.getHours()).padStart(2,'0') + ':' + String(now.getMinutes()).padStart(2,'0');
     timeManuallySet = false;
   }
- 
+
   function updateHeaderDate() {
     document.getElementById('headerDate').textContent =
       new Date().toLocaleDateString('fr-FR', { weekday:'long', day:'numeric', month:'long', year:'numeric' });
   }
- 
+
   function getTime() {
     const val = document.getElementById('timeInput').value;
     const [h, m] = val.split(':');
     return `${h}h${m}`;
   }
- 
+
   function getDate() {
     return new Date().toLocaleDateString('fr-FR');
   }
- 
+
   // ── Log event ───────────────────────────────────────────
   async function logEvent(type, emoji, btn) {
     if (!timeManuallySet) setNow();
- 
+
     const time  = getTime();
     const date  = getDate();
     const notes = document.getElementById('notes').value.trim();
- 
+
     // Save locally
     const entry = { date, time, type, emoji, notes, ts: Date.now() };
     entries.unshift(entry);
     if (entries.length > 300) entries = entries.slice(0, 300);
     localStorage.setItem('babylog_v3', JSON.stringify(entries));
- 
+
     document.getElementById('notes').value = '';
     renderHistory();
     updateLastLog();
- 
+
     // Show popup (pending)
     showPopup(emoji, type, time, 'pending');
- 
+
     // Send to Google Sheets
     if (scriptUrl) {
       try {
         const url = `${scriptUrl}?date=${encodeURIComponent(date)}&time=${encodeURIComponent(time)}&type=${encodeURIComponent(type)}&notes=${encodeURIComponent(notes)}`;
-        await fetch(url, { method: 'GET', mode: 'no-cors' });
+        await sendViaImage(url);
         showPopup(emoji, type, time, 'ok');
         setModalStatus('ok');
       } catch(e) {
@@ -522,16 +522,16 @@
       showPopup(emoji, type, time, 'local');
     }
   }
- 
+
   // ── Confirmation popup ──────────────────────────────────
   function showPopup(emoji, type, time, status) {
     const popup = document.getElementById('confirmPopup');
     const cpEmoji = document.getElementById('cpEmoji');
     const cpText  = document.getElementById('cpText');
     const cpCheck = document.getElementById('cpCheck');
- 
+
     cpEmoji.textContent = emoji;
- 
+
     if (status === 'pending') {
       cpText.textContent  = `${type} à ${time} — envoi…`;
       cpCheck.textContent = '…';
@@ -549,12 +549,12 @@
       cpCheck.textContent = '✓';
       cpCheck.style.color = 'var(--accent2)';
     }
- 
+
     popup.classList.add('show');
     clearTimeout(popupTimer);
     popupTimer = setTimeout(() => popup.classList.remove('show'), 3000);
   }
- 
+
   // ── Last log bar ────────────────────────────────────────
   function updateLastLog() {
     if (entries.length === 0) return;
@@ -562,18 +562,18 @@
     document.getElementById('lastLogValue').textContent =
       `${last.emoji} ${last.type} à ${last.time}${last.notes ? ' · ' + last.notes : ''}`;
   }
- 
+
   // ── History ─────────────────────────────────────────────
   function renderHistory() {
     const container = document.getElementById('history');
     const today = getDate();
     const todayEntries = entries.filter(e => e.date === today);
- 
+
     if (todayEntries.length === 0) {
       container.innerHTML = '<div class="empty-history">Aucune entrée pour le moment</div>';
       return;
     }
- 
+
     container.innerHTML = todayEntries.map(e => `
       <div class="history-item">
         <span class="h-time">${e.time}</span>
@@ -582,21 +582,32 @@
       </div>
     `).join('');
   }
- 
+
+  // ── Send via image trick (bypass CORS) ─────────────────
+  function sendViaImage(url) {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      const timer = setTimeout(() => reject(new Error('timeout')), 8000);
+      img.onload  = () => { clearTimeout(timer); resolve(); };
+      img.onerror = () => { clearTimeout(timer); resolve(); }; // Google Script renvoie une erreur image mais la requête est bien passée
+      img.src = url;
+    });
+  }
+
   // ── Config modal ─────────────────────────────────────────
   function openModal()  { document.getElementById('modalOverlay').classList.add('open'); }
   function closeModal() { document.getElementById('modalOverlay').classList.remove('open'); }
- 
+
   function handleOverlayClick(e) {
     if (e.target === document.getElementById('modalOverlay')) closeModal();
   }
- 
+
   function saveUrl() {
     scriptUrl = document.getElementById('scriptUrl').value.trim();
     localStorage.setItem('babylog_url', scriptUrl);
     setModalStatus(scriptUrl ? 'configured' : 'none');
   }
- 
+
   function setModalStatus(state) {
     const el = document.getElementById('modalStatus');
     el.className = 'modal-status';
