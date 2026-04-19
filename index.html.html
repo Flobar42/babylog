@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>👶 Baby Log</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #FAF7F2;
+    --warm: #F0EAE0;
+    --ink: #1A1510;
+    --muted: #8A7F74;
+    --accent: #C4855A;
+    --accent2: #7BA494;
+    --accent3: #8B7BAF;
+    --soft: #E8E0D5;
+    --card: #FFFCF8;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+  body {
+    background: var(--cream);
+    color: var(--ink);
+    font-family: 'DM Mono', monospace;
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  header {
+    padding: 20px 24px 12px;
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    border-bottom: 1px solid var(--soft);
+    background: var(--card);
+  }
+
+  header h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 28px;
+    letter-spacing: -0.5px;
+  }
+
+  header .date {
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .sheet-config {
+    background: var(--warm);
+    padding: 12px 24px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-bottom: 1px solid var(--soft);
+    flex-wrap: wrap;
+  }
+
+  .sheet-config label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+
+  .sheet-config input {
+    flex: 1;
+    min-width: 180px;
+    background: var(--card);
+    border: 1px solid var(--soft);
+    border-radius: 6px;
+    padding: 7px 10px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--ink);
+    outline: none;
+  }
+
+  .sheet-config input:focus { border-color: var(--accent); }
+
+  .sheet-config input::placeholder { color: var(--muted); }
+
+  .status-pill {
+    font-size: 10px;
+    padding: 4px 10px;
+    border-radius: 20px;
+    background: var(--soft);
+    color: var(--muted);
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+    transition: all 0.3s;
+  }
+  .status-pill.ok { background: #D4EDE7; color: #3A7A6A; }
+  .status-pill.err { background: #F0D8D0; color: #9A4A30; }
+  .status-pill.sending { background: #E8E0D5; color: var(--muted); }
+
+  .main {
+    flex: 1;
+    padding: 20px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    max-width: 480px;
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  .section-title {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+    margin-bottom: 10px;
+  }
+
+  /* Quick tap buttons */
+  .quick-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  .quick-btn {
+    background: var(--card);
+    border: 1.5px solid var(--soft);
+    border-radius: 16px;
+    padding: 18px 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    user-select: none;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .quick-btn:active {
+    transform: scale(0.96);
+    border-color: var(--accent);
+  }
+
+  .quick-btn .emoji { font-size: 32px; line-height: 1; }
+  .quick-btn .label {
+    font-family: 'DM Serif Display', serif;
+    font-size: 15px;
+    color: var(--ink);
+  }
+  .quick-btn .sub {
+    font-size: 9px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  .quick-btn.sein { border-color: #E8D5C8; background: #FDF8F5; }
+  .quick-btn.sein:active { background: #F5E8DC; border-color: var(--accent); }
+
+  .quick-btn.biberon { border-color: #C8D8E8; background: #F5F8FD; }
+  .quick-btn.biberon:active { background: #D5E4F0; border-color: #5A85C4; }
+
+  .quick-btn.selles { border-color: #D5C8D8; background: #F9F5FD; }
+  .quick-btn.selles:active { background: #E4D5EC; border-color: var(--accent3); }
+
+  .quick-btn.urines { border-color: #C8E0D5; background: #F5FDF9; }
+  .quick-btn.urines:active { background: #D5EDE5; border-color: var(--accent2); }
+
+  /* Ripple effect */
+  .ripple {
+    position: absolute;
+    border-radius: 50%;
+    transform: scale(0);
+    animation: ripple 0.5s linear;
+    background: rgba(0,0,0,0.08);
+    pointer-events: none;
+  }
+  @keyframes ripple {
+    to { transform: scale(4); opacity: 0; }
+  }
+
+  /* Time override */
+  .time-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .time-row label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+
+  .time-row input[type="time"] {
+    background: var(--card);
+    border: 1px solid var(--soft);
+    border-radius: 8px;
+    padding: 8px 12px;
+    font-family: 'DM Mono', monospace;
+    font-size: 14px;
+    color: var(--ink);
+    outline: none;
+    cursor: pointer;
+  }
+  .time-row input[type="time"]:focus { border-color: var(--accent); }
+
+  .time-row .now-btn {
+    padding: 8px 14px;
+    background: var(--ink);
+    color: var(--cream);
+    border: none;
+    border-radius: 8px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    cursor: pointer;
+    letter-spacing: 0.05em;
+    transition: opacity 0.15s;
+  }
+  .time-row .now-btn:active { opacity: 0.7; }
+
+  /* Notes */
+  .notes-input {
+    width: 100%;
+    background: var(--card);
+    border: 1px solid var(--soft);
+    border-radius: 10px;
+    padding: 12px 14px;
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--ink);
+    outline: none;
+    resize: none;
+    height: 60px;
+    line-height: 1.5;
+  }
+  .notes-input:focus { border-color: var(--accent); }
+  .notes-input::placeholder { color: var(--muted); }
+
+  /* History */
+  .history {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    max-height: 280px;
+    overflow-y: auto;
+  }
+
+  .history-item {
+    background: var(--card);
+    border: 1px solid var(--soft);
+    border-radius: 10px;
+    padding: 10px 14px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    animation: slideIn 0.2s ease;
+  }
+
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateY(-6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .history-item .h-time {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--ink);
+    min-width: 44px;
+  }
+
+  .history-item .h-emoji { font-size: 18px; }
+
+  .history-item .h-type {
+    font-size: 12px;
+    color: var(--muted);
+    flex: 1;
+  }
+
+  .history-item .h-status {
+    font-size: 10px;
+    color: var(--muted);
+  }
+  .history-item .h-status.sent { color: var(--accent2); }
+  .history-item .h-status.err { color: var(--accent); }
+
+  .empty-history {
+    text-align: center;
+    color: var(--muted);
+    font-size: 12px;
+    padding: 20px;
+  }
+
+  /* Toast */
+  .toast {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%) translateY(80px);
+    background: var(--ink);
+    color: var(--cream);
+    padding: 12px 20px;
+    border-radius: 30px;
+    font-size: 12px;
+    letter-spacing: 0.05em;
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    z-index: 100;
+    white-space: nowrap;
+  }
+  .toast.show { transform: translateX(-50%) translateY(0); }
+
+  /* Divider */
+  .divider {
+    height: 1px;
+    background: var(--soft);
+  }
+
+  /* Scrollbar */
+  .history::-webkit-scrollbar { width: 3px; }
+  .history::-webkit-scrollbar-track { background: transparent; }
+  .history::-webkit-scrollbar-thumb { background: var(--soft); border-radius: 10px; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>👶 Baby Log</h1>
+  <span class="date" id="headerDate"></span>
+</header>
+
+<div class="sheet-config">
+  <label>Google Script URL</label>
+  <input type="url" id="scriptUrl" placeholder="https://script.google.com/macros/s/…/exec" />
+  <span class="status-pill" id="statusPill">non configuré</span>
+</div>
+
+<div class="main">
+
+  <!-- Time -->
+  <div>
+    <div class="section-title">Heure de l'événement</div>
+    <div class="time-row">
+      <input type="time" id="timeInput" />
+      <button class="now-btn" onclick="setNow()">⟳ Maintenant</button>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- Quick buttons -->
+  <div>
+    <div class="section-title">Enregistrer</div>
+    <div class="quick-grid">
+      <button class="quick-btn sein" onclick="log('Sein', '🤱', this)">
+        <span class="emoji">🤱</span>
+        <span class="label">Sein</span>
+        <span class="sub">Tétée</span>
+      </button>
+      <button class="quick-btn biberon" onclick="log('Biberon', '🍼', this)">
+        <span class="emoji">🍼</span>
+        <span class="label">Biberon</span>
+        <span class="sub">Complément</span>
+      </button>
+      <button class="quick-btn selles" onclick="log('Selles', '💩', this)">
+        <span class="emoji">💩</span>
+        <span class="label">Selles</span>
+        <span class="sub">Couche</span>
+      </button>
+      <button class="quick-btn urines" onclick="log('Urines', '💧', this)">
+        <span class="emoji">💧</span>
+        <span class="label">Urines</span>
+        <span class="sub">Couche</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Notes -->
+  <div>
+    <div class="section-title">Note (optionnel)</div>
+    <textarea class="notes-input" id="notes" placeholder="Durée, quantité, remarque…"></textarea>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- History -->
+  <div>
+    <div class="section-title">Aujourd'hui — historique local</div>
+    <div class="history" id="history">
+      <div class="empty-history">Aucune entrée pour le moment</div>
+    </div>
+  </div>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+  // ── State ──────────────────────────────────────────────
+  let entries = JSON.parse(localStorage.getItem('babylog_entries') || '[]');
+  let scriptUrl = localStorage.getItem('babylog_url') || '';
+
+  // ── Init ───────────────────────────────────────────────
+  document.getElementById('scriptUrl').value = scriptUrl;
+  setNow();
+  updateHeaderDate();
+  renderHistory();
+
+  document.getElementById('scriptUrl').addEventListener('input', e => {
+    scriptUrl = e.target.value.trim();
+    localStorage.setItem('babylog_url', scriptUrl);
+    updateStatusPill('idle');
+  });
+
+  // ── Time helpers ───────────────────────────────────────
+  function setNow() {
+    const now = new Date();
+    const h = String(now.getHours()).padStart(2, '0');
+    const m = String(now.getMinutes()).padStart(2, '0');
+    document.getElementById('timeInput').value = `${h}:${m}`;
+  }
+
+  function updateHeaderDate() {
+    const now = new Date();
+    const opts = { weekday: 'long', day: 'numeric', month: 'long' };
+    document.getElementById('headerDate').textContent =
+      now.toLocaleDateString('fr-FR', opts);
+  }
+
+  function getDateTime() {
+    const timeVal = document.getElementById('timeInput').value;
+    const now = new Date();
+    const [h, m] = timeVal.split(':');
+    now.setHours(parseInt(h), parseInt(m), 0, 0);
+    const date = now.toLocaleDateString('fr-FR');
+    const time = `${h}h${m}`;
+    return { date, time, isoDate: now.toISOString() };
+  }
+
+  // ── Log event ──────────────────────────────────────────
+  async function log(type, emoji, btn) {
+    // Ripple
+    const ripple = document.createElement('span');
+    ripple.classList.add('ripple');
+    const rect = btn.getBoundingClientRect();
+    ripple.style.width = ripple.style.height = Math.max(rect.width, rect.height) + 'px';
+    ripple.style.left = '0px';
+    ripple.style.top = '0px';
+    btn.appendChild(ripple);
+    setTimeout(() => ripple.remove(), 600);
+
+    const { date, time, isoDate } = getDateTime();
+    const notes = document.getElementById('notes').value.trim();
+
+    const entry = { date, time, type, notes, status: 'pending', emoji, isoDate };
+    entries.unshift(entry);
+    saveEntries();
+    renderHistory();
+    showToast(`${emoji} ${type} enregistré à ${time}`);
+    document.getElementById('notes').value = '';
+
+    // Send to Google Sheets
+    if (scriptUrl) {
+      updateStatusPill('sending');
+      try {
+        const params = new URLSearchParams({ date, time, type, notes });
+        await fetch(scriptUrl + '?' + params.toString(), { method: 'GET', mode: 'no-cors' });
+        entry.status = 'sent';
+        saveEntries();
+        renderHistory();
+        updateStatusPill('ok');
+      } catch (e) {
+        entry.status = 'err';
+        saveEntries();
+        renderHistory();
+        updateStatusPill('err');
+      }
+    }
+  }
+
+  // ── Render ─────────────────────────────────────────────
+  function renderHistory() {
+    const container = document.getElementById('history');
+    // Filter today
+    const today = new Date().toLocaleDateString('fr-FR');
+    const todayEntries = entries.filter(e => e.date === today);
+
+    if (todayEntries.length === 0) {
+      container.innerHTML = '<div class="empty-history">Aucune entrée pour le moment</div>';
+      return;
+    }
+
+    container.innerHTML = todayEntries.map(e => {
+      const statusLabel = e.status === 'sent' ? '✓ envoyé' : e.status === 'err' ? '✗ erreur' : '…';
+      const statusClass = e.status === 'sent' ? 'sent' : e.status === 'err' ? 'err' : '';
+      return `
+        <div class="history-item">
+          <span class="h-time">${e.time}</span>
+          <span class="h-emoji">${e.emoji}</span>
+          <span class="h-type">${e.type}${e.notes ? ' — ' + e.notes : ''}</span>
+          <span class="h-status ${statusClass}">${statusLabel}</span>
+        </div>
+      `;
+    }).join('');
+  }
+
+  // ── Persistence ────────────────────────────────────────
+  function saveEntries() {
+    // Keep last 200 entries
+    if (entries.length > 200) entries = entries.slice(0, 200);
+    localStorage.setItem('babylog_entries', JSON.stringify(entries));
+  }
+
+  // ── Toast ──────────────────────────────────────────────
+  let toastTimer;
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => t.classList.remove('show'), 2500);
+  }
+
+  // ── Status pill ────────────────────────────────────────
+  function updateStatusPill(state) {
+    const pill = document.getElementById('statusPill');
+    pill.className = 'status-pill';
+    if (state === 'ok') { pill.classList.add('ok'); pill.textContent = '✓ connecté'; }
+    else if (state === 'err') { pill.classList.add('err'); pill.textContent = '✗ erreur'; }
+    else if (state === 'sending') { pill.classList.add('sending'); pill.textContent = '… envoi'; }
+    else { pill.textContent = 'non configuré'; }
+  }
+
+  if (scriptUrl) updateStatusPill('idle');
+</script>
+</body>
+</html>
