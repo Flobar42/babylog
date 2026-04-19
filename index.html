@@ -17,107 +17,56 @@
     --accent3: #8B7BAF;
     --soft: #E8E0D5;
     --card: #FFFCF8;
-    --font-serif: Georgia, 'Times New Roman', serif;
-    --font-mono: 'Courier New', Courier, monospace;
   }
-
+ 
   * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-
+ 
   body {
     background: var(--cream);
     color: var(--ink);
-    font-family: var(--font-mono);
+    font-family: Georgia, serif;
     min-height: 100dvh;
     display: flex;
     flex-direction: column;
   }
-
+ 
+  /* ── Header ── */
   header {
-    padding: 20px 24px 12px;
-    display: flex;
-    align-items: baseline;
-    gap: 12px;
-    border-bottom: 1px solid var(--soft);
+    padding: 20px 24px 14px;
     background: var(--card);
+    border-bottom: 1px solid var(--soft);
   }
-
+ 
   header h1 {
-    font-family: var(--font-serif);
-    font-size: 28px;
-    letter-spacing: -0.5px;
+    font-size: 26px;
+    letter-spacing: -0.3px;
+    margin-bottom: 4px;
   }
-
-  header .date {
-    font-size: 11px;
-    color: var(--muted);
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-  }
-
-  .sheet-config {
-    background: var(--warm);
-    padding: 12px 24px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    border-bottom: 1px solid var(--soft);
-    flex-wrap: wrap;
-  }
-
-  .sheet-config label {
-    font-size: 10px;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: var(--muted);
-    white-space: nowrap;
-  }
-
-  .sheet-config input {
-    flex: 1;
-    min-width: 180px;
-    background: var(--card);
-    border: 1px solid var(--soft);
-    border-radius: 6px;
-    padding: 7px 10px;
-    font-family: var(--font-mono);
-    font-size: 11px;
-    color: var(--ink);
-    outline: none;
-  }
-
-  .sheet-config input:focus { border-color: var(--accent); }
-
-  .sheet-config input::placeholder { color: var(--muted); }
-
-  .last-log {
-    background: var(--warm);
-    padding: 10px 24px;
+ 
+  .header-date {
     font-size: 12px;
     color: var(--muted);
+    font-family: 'Courier New', monospace;
+  }
+ 
+  /* ── Last log bar ── */
+  .last-log-bar {
+    background: var(--warm);
     border-bottom: 1px solid var(--soft);
+    padding: 10px 24px;
+    font-size: 13px;
+    color: var(--muted);
+    font-family: 'Courier New', monospace;
+    min-height: 40px;
     display: flex;
     align-items: center;
     gap: 8px;
   }
-
-  .last-log strong {
-    color: var(--ink);
-  }
-
-  .status-pill {
-    font-size: 10px;
-    padding: 4px 10px;
-    border-radius: 20px;
-    background: var(--soft);
-    color: var(--muted);
-    letter-spacing: 0.05em;
-    white-space: nowrap;
-    transition: all 0.3s;
-  }
-  .status-pill.ok { background: #D4EDE7; color: #3A7A6A; }
-  .status-pill.err { background: #F0D8D0; color: #9A4A30; }
-  .status-pill.sending { background: #E8E0D5; color: var(--muted); }
-
+ 
+  .last-log-bar .ll-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; }
+  .last-log-bar .ll-value { color: var(--ink); font-size: 14px; }
+ 
+  /* ── Main ── */
   .main {
     flex: 1;
     padding: 20px 24px;
@@ -128,150 +77,112 @@
     width: 100%;
     margin: 0 auto;
   }
-
+ 
   .section-title {
     font-size: 10px;
     text-transform: uppercase;
     letter-spacing: 0.12em;
     color: var(--muted);
     margin-bottom: 10px;
+    font-family: 'Courier New', monospace;
   }
-
-  /* Quick tap buttons */
-  .quick-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-  }
-
-  .quick-btn {
-    background: var(--card);
-    border: 1.5px solid var(--soft);
-    border-radius: 16px;
-    padding: 18px 16px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 8px;
-    cursor: pointer;
-    transition: all 0.15s ease;
-    user-select: none;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .quick-btn:active {
-    transform: scale(0.96);
-    border-color: var(--accent);
-  }
-
-  .quick-btn .emoji { font-size: 32px; line-height: 1; }
-  .quick-btn .label {
-    font-family: var(--font-serif);
-    font-size: 15px;
-    color: var(--ink);
-  }
-  .quick-btn .sub {
-    font-size: 9px;
-    color: var(--muted);
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-  }
-
-  .quick-btn.sein { border-color: #E8D5C8; background: #FDF8F5; }
-  .quick-btn.sein:active { background: #F5E8DC; border-color: var(--accent); }
-
-  .quick-btn.biberon { border-color: #C8D8E8; background: #F5F8FD; }
-  .quick-btn.biberon:active { background: #D5E4F0; border-color: #5A85C4; }
-
-  .quick-btn.selles { border-color: #D5C8D8; background: #F9F5FD; }
-  .quick-btn.selles:active { background: #E4D5EC; border-color: var(--accent3); }
-
-  .quick-btn.urines { border-color: #C8E0D5; background: #F5FDF9; }
-  .quick-btn.urines:active { background: #D5EDE5; border-color: var(--accent2); }
-
-  /* Ripple effect */
-  .ripple {
-    position: absolute;
-    border-radius: 50%;
-    transform: scale(0);
-    animation: ripple 0.5s linear;
-    background: rgba(0,0,0,0.08);
-    pointer-events: none;
-  }
-  @keyframes ripple {
-    to { transform: scale(4); opacity: 0; }
-  }
-
-  /* Time override */
+ 
+  /* ── Time row ── */
   .time-row {
     display: flex;
     align-items: center;
     gap: 10px;
   }
-
-  .time-row label {
-    font-size: 10px;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: var(--muted);
-    white-space: nowrap;
-  }
-
+ 
   .time-row input[type="time"] {
     background: var(--card);
     border: 1px solid var(--soft);
     border-radius: 8px;
-    padding: 8px 12px;
-    font-family: var(--font-mono);
-    font-size: 14px;
+    padding: 9px 12px;
+    font-family: 'Courier New', monospace;
+    font-size: 15px;
     color: var(--ink);
     outline: none;
     cursor: pointer;
+    flex: 1;
   }
   .time-row input[type="time"]:focus { border-color: var(--accent); }
-
-  .time-row .now-btn {
-    padding: 8px 14px;
+ 
+  .now-btn {
+    padding: 9px 16px;
     background: var(--ink);
     color: var(--cream);
     border: none;
     border-radius: 8px;
-    font-family: var(--font-mono);
-    font-size: 11px;
+    font-family: 'Courier New', monospace;
+    font-size: 12px;
     cursor: pointer;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.04em;
+    white-space: nowrap;
     transition: opacity 0.15s;
   }
-  .time-row .now-btn:active { opacity: 0.7; }
-
-  /* Notes */
+  .now-btn:active { opacity: 0.7; }
+ 
+  /* ── Quick buttons ── */
+  .quick-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+ 
+  .quick-btn {
+    background: var(--card);
+    border: 1.5px solid var(--soft);
+    border-radius: 16px;
+    padding: 20px 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    transition: transform 0.12s ease, box-shadow 0.12s ease;
+    user-select: none;
+    position: relative;
+    overflow: hidden;
+  }
+ 
+  .quick-btn:active { transform: scale(0.96); }
+  .quick-btn .emoji { font-size: 34px; line-height: 1; }
+  .quick-btn .label { font-size: 15px; color: var(--ink); }
+  .quick-btn .sub { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; font-family: 'Courier New', monospace; }
+ 
+  .quick-btn.sein   { border-color: #E8D5C8; }
+  .quick-btn.biberon { border-color: #C8D8E8; }
+  .quick-btn.selles { border-color: #D5C8D8; }
+  .quick-btn.urines { border-color: #C8E0D5; }
+ 
+  /* ── Notes ── */
   .notes-input {
     width: 100%;
     background: var(--card);
     border: 1px solid var(--soft);
     border-radius: 10px;
     padding: 12px 14px;
-    font-family: var(--font-mono);
-    font-size: 12px;
+    font-family: 'Courier New', monospace;
+    font-size: 13px;
     color: var(--ink);
     outline: none;
     resize: none;
-    height: 60px;
+    height: 64px;
     line-height: 1.5;
   }
   .notes-input:focus { border-color: var(--accent); }
   .notes-input::placeholder { color: var(--muted); }
-
-  /* History */
+ 
+  /* ── History ── */
   .history {
     display: flex;
     flex-direction: column;
     gap: 6px;
-    max-height: 280px;
+    max-height: 260px;
     overflow-y: auto;
   }
-
+ 
   .history-item {
     background: var(--card);
     border: 1px solid var(--soft);
@@ -282,391 +193,418 @@
     gap: 12px;
     animation: slideIn 0.2s ease;
   }
-
+ 
   @keyframes slideIn {
-    from { opacity: 0; transform: translateY(-6px); }
-    to { opacity: 1; transform: translateY(0); }
+    from { opacity: 0; transform: translateY(-5px); }
+    to   { opacity: 1; transform: translateY(0); }
   }
-
-  .history-item .h-time {
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--ink);
-    min-width: 44px;
-  }
-
-  .history-item .h-emoji { font-size: 18px; }
-
-  .history-item .h-type {
-    font-size: 12px;
-    color: var(--muted);
-    flex: 1;
-  }
-
-  .history-item .h-status {
-    font-size: 10px;
-    color: var(--muted);
-  }
-  .history-item .h-status.sent { color: var(--accent2); }
-  .history-item .h-status.err { color: var(--accent); }
-
-  .empty-history {
-    text-align: center;
-    color: var(--muted);
-    font-size: 12px;
-    padding: 20px;
-  }
-
-  /* Toast */
-  .toast {
+ 
+  .h-time  { font-size: 13px; font-family: 'Courier New', monospace; min-width: 48px; color: var(--ink); }
+  .h-emoji { font-size: 18px; }
+  .h-type  { font-size: 13px; color: var(--muted); flex: 1; }
+ 
+  .empty-history { text-align: center; color: var(--muted); font-size: 13px; padding: 20px; font-family: 'Courier New', monospace; }
+ 
+  /* ── Divider ── */
+  .divider { height: 1px; background: var(--soft); }
+ 
+  /* ── Config modal ── */
+  .config-trigger {
     position: fixed;
-    bottom: 30px;
-    left: 50%;
-    transform: translateX(-50%) translateY(80px);
+    bottom: 20px;
+    right: 20px;
+    width: 44px;
+    height: 44px;
     background: var(--ink);
     color: var(--cream);
-    padding: 12px 20px;
-    border-radius: 30px;
-    font-size: 12px;
-    letter-spacing: 0.05em;
-    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    border: none;
+    border-radius: 50%;
+    font-size: 18px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+    transition: opacity 0.15s;
+    z-index: 50;
+  }
+  .config-trigger:active { opacity: 0.7; }
+ 
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(26,21,16,0.5);
     z-index: 100;
+    display: flex;
+    align-items: flex-end;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s;
+  }
+  .modal-overlay.open {
+    opacity: 1;
+    pointer-events: all;
+  }
+ 
+  .modal {
+    background: var(--card);
+    width: 100%;
+    border-radius: 20px 20px 0 0;
+    padding: 24px;
+    transform: translateY(100%);
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    max-width: 480px;
+    margin: 0 auto;
+  }
+  .modal-overlay.open .modal {
+    transform: translateY(0);
+  }
+ 
+  .modal-title {
+    font-size: 16px;
+    margin-bottom: 16px;
+    color: var(--ink);
+  }
+ 
+  .modal label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    display: block;
+    margin-bottom: 6px;
+    font-family: 'Courier New', monospace;
+  }
+ 
+  .modal input[type="url"] {
+    width: 100%;
+    background: var(--warm);
+    border: 1px solid var(--soft);
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-family: 'Courier New', monospace;
+    font-size: 12px;
+    color: var(--ink);
+    outline: none;
+    margin-bottom: 12px;
+  }
+  .modal input[type="url"]:focus { border-color: var(--accent); }
+  .modal input[type="url"]::placeholder { color: var(--muted); }
+ 
+  .modal-status {
+    font-size: 12px;
+    font-family: 'Courier New', monospace;
+    padding: 8px 12px;
+    border-radius: 8px;
+    background: var(--warm);
+    color: var(--muted);
+    margin-bottom: 16px;
+  }
+  .modal-status.ok  { background: #D4EDE7; color: #3A7A6A; }
+  .modal-status.err { background: #F0D8D0; color: #9A4A30; }
+ 
+  .modal-close {
+    width: 100%;
+    padding: 12px;
+    background: var(--ink);
+    color: var(--cream);
+    border: none;
+    border-radius: 10px;
+    font-family: 'Courier New', monospace;
+    font-size: 13px;
+    cursor: pointer;
+    transition: opacity 0.15s;
+  }
+  .modal-close:active { opacity: 0.7; }
+ 
+  /* ── Confirmation popup ── */
+  .confirm-popup {
+    position: fixed;
+    bottom: 80px;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: var(--card);
+    border: 1.5px solid var(--soft);
+    border-radius: 16px;
+    padding: 14px 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.10);
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    z-index: 90;
+    min-width: 220px;
     white-space: nowrap;
   }
-  .toast.show { transform: translateX(-50%) translateY(0); }
-
-  /* Divider */
-  .divider {
-    height: 1px;
-    background: var(--soft);
+  .confirm-popup.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
   }
-
+  .confirm-popup .cp-emoji { font-size: 22px; }
+  .confirm-popup .cp-text  { font-size: 13px; color: var(--ink); font-family: 'Courier New', monospace; }
+  .confirm-popup .cp-check { font-size: 16px; color: var(--accent2); margin-left: auto; }
+ 
   /* Scrollbar */
   .history::-webkit-scrollbar { width: 3px; }
   .history::-webkit-scrollbar-track { background: transparent; }
   .history::-webkit-scrollbar-thumb { background: var(--soft); border-radius: 10px; }
-
-  /* Last log banner */
-  .last-log {
-    background: var(--card);
-    border-bottom: 1px solid var(--soft);
-    padding: 10px 24px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    min-height: 42px;
-  }
-  .last-log .ll-label {
-    font-size: 10px;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: var(--muted);
-    white-space: nowrap;
-  }
-  .last-log .ll-content {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    flex: 1;
-  }
-  .last-log .ll-emoji { font-size: 18px; }
-  .last-log .ll-type {
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--ink);
-  }
-  .last-log .ll-time {
-    font-size: 12px;
-    color: var(--muted);
-  }
-  .last-log .ll-notes {
-    font-size: 11px;
-    color: var(--muted);
-    font-style: italic;
-  }
-  .last-log .ll-empty {
-    font-size: 12px;
-    color: var(--muted);
-  }
-  .last-log .ll-ago {
-    font-size: 11px;
-    color: var(--accent);
-    margin-left: auto;
-    white-space: nowrap;
-  }
 </style>
 </head>
 <body>
-
+ 
+<!-- Header -->
 <header>
   <h1>👶 Baby Log</h1>
-  <span class="date" id="headerDate"></span>
+  <div class="header-date" id="headerDate"></div>
 </header>
-
-<div class="last-log" id="lastLog" style="display:none">
-  <span id="lastLogText"></span>
+ 
+<!-- Last log bar -->
+<div class="last-log-bar" id="lastLogBar">
+  <span class="ll-label">Dernier —</span>
+  <span class="ll-value" id="lastLogValue">aucun log</span>
 </div>
-
-<div class="sheet-config">
-  <label>Google Script URL</label>
-  <input type="url" id="scriptUrl" placeholder="https://script.google.com/macros/s/…/exec" />
-  <span class="status-pill" id="statusPill">non configuré</span>
-</div>
-
-<div class="last-log" id="lastLog">
-  <span class="ll-label">Dernier</span>
-  <div class="ll-content">
-    <span class="ll-empty">Aucun événement aujourd'hui</span>
-  </div>
-</div>
-
+ 
+<!-- Main content -->
 <div class="main">
-
-  <!-- Time -->
+ 
   <div>
-    <div class="section-title">Heure de l'événement</div>
+    <div class="section-title">Heure</div>
     <div class="time-row">
       <input type="time" id="timeInput" />
       <button class="now-btn" onclick="setNow()">⟳ Maintenant</button>
     </div>
   </div>
-
+ 
   <div class="divider"></div>
-
-  <!-- Quick buttons -->
+ 
   <div>
     <div class="section-title">Enregistrer</div>
     <div class="quick-grid">
-      <button class="quick-btn sein" onclick="log('Sein', '🤱', this)">
+      <button class="quick-btn sein"    onclick="logEvent('Sein',    '🤱', this)">
         <span class="emoji">🤱</span>
         <span class="label">Sein</span>
         <span class="sub">Tétée</span>
       </button>
-      <button class="quick-btn biberon" onclick="log('Biberon', '🍼', this)">
+      <button class="quick-btn biberon" onclick="logEvent('Biberon', '🍼', this)">
         <span class="emoji">🍼</span>
         <span class="label">Biberon</span>
         <span class="sub">Complément</span>
       </button>
-      <button class="quick-btn selles" onclick="log('Selles', '💩', this)">
+      <button class="quick-btn selles"  onclick="logEvent('Selles',  '💩', this)">
         <span class="emoji">💩</span>
         <span class="label">Selles</span>
         <span class="sub">Couche</span>
       </button>
-      <button class="quick-btn urines" onclick="log('Urines', '💧', this)">
+      <button class="quick-btn urines"  onclick="logEvent('Urines',  '💧', this)">
         <span class="emoji">💧</span>
         <span class="label">Urines</span>
         <span class="sub">Couche</span>
       </button>
     </div>
   </div>
-
-  <!-- Notes -->
+ 
   <div>
     <div class="section-title">Note (optionnel)</div>
     <textarea class="notes-input" id="notes" placeholder="Durée, quantité, remarque…"></textarea>
   </div>
-
+ 
   <div class="divider"></div>
-
-  <!-- History -->
+ 
   <div>
-    <div class="section-title">Aujourd'hui — historique local</div>
+    <div class="section-title">Aujourd'hui</div>
     <div class="history" id="history">
       <div class="empty-history">Aucune entrée pour le moment</div>
     </div>
   </div>
-
+ 
 </div>
-
-<div class="toast" id="toast"></div>
-
+ 
+<!-- Config button (gear) -->
+<button class="config-trigger" onclick="openModal()" title="Paramètres">⚙</button>
+ 
+<!-- Config modal -->
+<div class="modal-overlay" id="modalOverlay" onclick="handleOverlayClick(event)">
+  <div class="modal">
+    <div class="modal-title">⚙ Connexion Google Sheets</div>
+    <label>URL du script Apps Script</label>
+    <input type="url" id="scriptUrl" placeholder="https://script.google.com/macros/s/…/exec" oninput="saveUrl()" />
+    <div class="modal-status" id="modalStatus">Non configuré</div>
+    <button class="modal-close" onclick="closeModal()">Fermer</button>
+  </div>
+</div>
+ 
+<!-- Confirmation popup -->
+<div class="confirm-popup" id="confirmPopup">
+  <span class="cp-emoji" id="cpEmoji"></span>
+  <span class="cp-text"  id="cpText"></span>
+  <span class="cp-check" id="cpCheck"></span>
+</div>
+ 
 <script>
-  // ── State ──────────────────────────────────────────────
-  let entries = JSON.parse(localStorage.getItem('babylog_entries') || '[]');
+  // ── State ───────────────────────────────────────────────
+  let entries = JSON.parse(localStorage.getItem('babylog_v3') || '[]');
   let scriptUrl = localStorage.getItem('babylog_url') || '';
-
-  // ── Init ───────────────────────────────────────────────
-  document.getElementById('scriptUrl').value = scriptUrl;
+  let timeManuallySet = false;
+  let popupTimer = null;
+ 
+  // ── Init ────────────────────────────────────────────────
   setNow();
   updateHeaderDate();
   renderHistory();
-  renderLastLog();
-
-  document.getElementById('scriptUrl').addEventListener('input', e => {
-    scriptUrl = e.target.value.trim();
-    localStorage.setItem('babylog_url', scriptUrl);
-    updateStatusPill('idle');
-  });
-
-  // Détecter si l'utilisateur a modifié l'heure manuellement
-  let timeManuallySet = false;
+  updateLastLog();
+  if (scriptUrl) {
+    document.getElementById('scriptUrl').value = scriptUrl;
+    setModalStatus('configured');
+  }
+ 
   document.getElementById('timeInput').addEventListener('change', () => {
     timeManuallySet = true;
   });
-
-  // ── Time helpers ───────────────────────────────────────
+ 
+  // ── Time ────────────────────────────────────────────────
   function setNow() {
     const now = new Date();
-    const h = String(now.getHours()).padStart(2, '0');
-    const m = String(now.getMinutes()).padStart(2, '0');
-    document.getElementById('timeInput').value = `${h}:${m}`;
+    document.getElementById('timeInput').value =
+      String(now.getHours()).padStart(2,'0') + ':' + String(now.getMinutes()).padStart(2,'0');
     timeManuallySet = false;
   }
-
+ 
   function updateHeaderDate() {
-    const now = new Date();
-    const opts = { weekday: 'long', day: 'numeric', month: 'long' };
     document.getElementById('headerDate').textContent =
-      now.toLocaleDateString('fr-FR', opts);
+      new Date().toLocaleDateString('fr-FR', { weekday:'long', day:'numeric', month:'long', year:'numeric' });
   }
-
-  function getDateTime() {
-    const timeVal = document.getElementById('timeInput').value;
-    const now = new Date();
-    const [h, m] = timeVal.split(':');
-    now.setHours(parseInt(h), parseInt(m), 0, 0);
-    const date = now.toLocaleDateString('fr-FR');
-    const time = `${h}h${m}`;
-    return { date, time, isoDate: now.toISOString() };
+ 
+  function getTime() {
+    const val = document.getElementById('timeInput').value;
+    const [h, m] = val.split(':');
+    return `${h}h${m}`;
   }
-
-  // ── Log event ──────────────────────────────────────────
-  async function log(type, emoji, btn) {
-    // Auto-update time unless manually set
+ 
+  function getDate() {
+    return new Date().toLocaleDateString('fr-FR');
+  }
+ 
+  // ── Log event ───────────────────────────────────────────
+  async function logEvent(type, emoji, btn) {
     if (!timeManuallySet) setNow();
-    // Ripple
-    const ripple = document.createElement('span');
-    ripple.classList.add('ripple');
-    const rect = btn.getBoundingClientRect();
-    ripple.style.width = ripple.style.height = Math.max(rect.width, rect.height) + 'px';
-    ripple.style.left = '0px';
-    ripple.style.top = '0px';
-    btn.appendChild(ripple);
-    setTimeout(() => ripple.remove(), 600);
-
-    const { date, time, isoDate } = getDateTime();
+ 
+    const time  = getTime();
+    const date  = getDate();
     const notes = document.getElementById('notes').value.trim();
-
-    const entry = { date, time, type, notes, status: 'pending', emoji, isoDate };
+ 
+    // Save locally
+    const entry = { date, time, type, emoji, notes, ts: Date.now() };
     entries.unshift(entry);
-    saveEntries();
-    renderHistory();
-    renderLastLog();
-    showToast(`${emoji} ${type} enregistré à ${time}`);
+    if (entries.length > 300) entries = entries.slice(0, 300);
+    localStorage.setItem('babylog_v3', JSON.stringify(entries));
+ 
     document.getElementById('notes').value = '';
-
+    renderHistory();
+    updateLastLog();
+ 
+    // Show popup (pending)
+    showPopup(emoji, type, time, 'pending');
+ 
     // Send to Google Sheets
     if (scriptUrl) {
-      updateStatusPill('sending');
       try {
-        const params = new URLSearchParams({ date, time, type, notes });
-        await fetch(scriptUrl + '?' + params.toString(), { method: 'GET', mode: 'no-cors' });
-        entry.status = 'sent';
-        saveEntries();
-        renderHistory();
-        updateStatusPill('ok');
-      } catch (e) {
-        entry.status = 'err';
-        saveEntries();
-        renderHistory();
-        updateStatusPill('err');
+        const url = `${scriptUrl}?date=${encodeURIComponent(date)}&time=${encodeURIComponent(time)}&type=${encodeURIComponent(type)}&notes=${encodeURIComponent(notes)}`;
+        await fetch(url, { method: 'GET', mode: 'no-cors' });
+        showPopup(emoji, type, time, 'ok');
+        setModalStatus('ok');
+      } catch(e) {
+        showPopup(emoji, type, time, 'err');
+        setModalStatus('err');
       }
+    } else {
+      showPopup(emoji, type, time, 'local');
     }
   }
-
-  // ── Render ─────────────────────────────────────────────
-  function renderLastLog() {
-    const container = document.getElementById('lastLog');
-    if (!entries.length) return;
-    const last = entries[0];
-    // Compute time ago
-    const now = new Date();
-    const [h, m] = last.time.replace('h', ':').split(':');
-    const then = new Date();
-    then.setHours(parseInt(h), parseInt(m), 0, 0);
-    const diffMin = Math.round((now - then) / 60000);
-    let ago = '';
-    if (diffMin < 1) ago = 'à l'instant';
-    else if (diffMin < 60) ago = `il y a ${diffMin} min`;
-    else { const hrs = Math.floor(diffMin / 60); const mins = diffMin % 60; ago = `il y a ${hrs}h${mins > 0 ? mins : ''}`; }
-
-    container.innerHTML = `
-      <span class="ll-label">Dernier</span>
-      <div class="ll-content">
-        <span class="ll-emoji">${last.emoji}</span>
-        <span class="ll-type">${last.type}</span>
-        <span class="ll-time">${last.time}</span>
-        ${last.notes ? `<span class="ll-notes">— ${last.notes}</span>` : ''}
-        <span class="ll-ago">${ago}</span>
-      </div>
-    `;
+ 
+  // ── Confirmation popup ──────────────────────────────────
+  function showPopup(emoji, type, time, status) {
+    const popup = document.getElementById('confirmPopup');
+    const cpEmoji = document.getElementById('cpEmoji');
+    const cpText  = document.getElementById('cpText');
+    const cpCheck = document.getElementById('cpCheck');
+ 
+    cpEmoji.textContent = emoji;
+ 
+    if (status === 'pending') {
+      cpText.textContent  = `${type} à ${time} — envoi…`;
+      cpCheck.textContent = '…';
+      cpCheck.style.color = 'var(--muted)';
+    } else if (status === 'ok') {
+      cpText.textContent  = `${type} à ${time} — sauvegardé ✓`;
+      cpCheck.textContent = '';
+      cpCheck.style.color = 'var(--accent2)';
+    } else if (status === 'err') {
+      cpText.textContent  = `${type} à ${time} — erreur Sheet`;
+      cpCheck.textContent = '✗';
+      cpCheck.style.color = 'var(--accent)';
+    } else {
+      cpText.textContent  = `${type} à ${time} — enregistré`;
+      cpCheck.textContent = '✓';
+      cpCheck.style.color = 'var(--accent2)';
+    }
+ 
+    popup.classList.add('show');
+    clearTimeout(popupTimer);
+    popupTimer = setTimeout(() => popup.classList.remove('show'), 3000);
   }
-
-  // Refresh "il y a X min" every minute
-  setInterval(renderLastLog, 60000);
-
+ 
+  // ── Last log bar ────────────────────────────────────────
+  function updateLastLog() {
+    if (entries.length === 0) return;
+    const last = entries[0];
+    document.getElementById('lastLogValue').textContent =
+      `${last.emoji} ${last.type} à ${last.time}${last.notes ? ' · ' + last.notes : ''}`;
+  }
+ 
+  // ── History ─────────────────────────────────────────────
   function renderHistory() {
     const container = document.getElementById('history');
-    // Filter today
-    const today = new Date().toLocaleDateString('fr-FR');
+    const today = getDate();
     const todayEntries = entries.filter(e => e.date === today);
-
-    // Update last log banner
-    if (entries.length > 0) {
-      const last = entries[0];
-      const banner = document.getElementById('lastLog');
-      const text = document.getElementById('lastLogText');
-      text.innerHTML = `Dernier log — <strong>${last.emoji} ${last.type}</strong> à <strong>${last.time}</strong>${last.notes ? ' · ' + last.notes : ''}`;
-      banner.style.display = 'flex';
-    }
-
+ 
     if (todayEntries.length === 0) {
       container.innerHTML = '<div class="empty-history">Aucune entrée pour le moment</div>';
       return;
     }
-
-    container.innerHTML = todayEntries.map(e => {
-      const statusLabel = e.status === 'sent' ? '✓ envoyé' : e.status === 'err' ? '✗ erreur' : '…';
-      const statusClass = e.status === 'sent' ? 'sent' : e.status === 'err' ? 'err' : '';
-      return `
-        <div class="history-item">
-          <span class="h-time">${e.time}</span>
-          <span class="h-emoji">${e.emoji}</span>
-          <span class="h-type">${e.type}${e.notes ? ' — ' + e.notes : ''}</span>
-          <span class="h-status ${statusClass}">${statusLabel}</span>
-        </div>
-      `;
-    }).join('');
+ 
+    container.innerHTML = todayEntries.map(e => `
+      <div class="history-item">
+        <span class="h-time">${e.time}</span>
+        <span class="h-emoji">${e.emoji}</span>
+        <span class="h-type">${e.type}${e.notes ? ' — ' + e.notes : ''}</span>
+      </div>
+    `).join('');
   }
-
-  // ── Persistence ────────────────────────────────────────
-  function saveEntries() {
-    // Keep last 200 entries
-    if (entries.length > 200) entries = entries.slice(0, 200);
-    localStorage.setItem('babylog_entries', JSON.stringify(entries));
+ 
+  // ── Config modal ─────────────────────────────────────────
+  function openModal()  { document.getElementById('modalOverlay').classList.add('open'); }
+  function closeModal() { document.getElementById('modalOverlay').classList.remove('open'); }
+ 
+  function handleOverlayClick(e) {
+    if (e.target === document.getElementById('modalOverlay')) closeModal();
   }
-
-  // ── Toast ──────────────────────────────────────────────
-  let toastTimer;
-  function showToast(msg) {
-    const t = document.getElementById('toast');
-    t.textContent = msg;
-    t.classList.add('show');
-    clearTimeout(toastTimer);
-    toastTimer = setTimeout(() => t.classList.remove('show'), 2500);
+ 
+  function saveUrl() {
+    scriptUrl = document.getElementById('scriptUrl').value.trim();
+    localStorage.setItem('babylog_url', scriptUrl);
+    setModalStatus(scriptUrl ? 'configured' : 'none');
   }
-
-  // ── Status pill ────────────────────────────────────────
-  function updateStatusPill(state) {
-    const pill = document.getElementById('statusPill');
-    pill.className = 'status-pill';
-    if (state === 'ok') { pill.classList.add('ok'); pill.textContent = '✓ connecté'; }
-    else if (state === 'err') { pill.classList.add('err'); pill.textContent = '✗ erreur'; }
-    else if (state === 'sending') { pill.classList.add('sending'); pill.textContent = '… envoi'; }
-    else { pill.textContent = 'non configuré'; }
+ 
+  function setModalStatus(state) {
+    const el = document.getElementById('modalStatus');
+    el.className = 'modal-status';
+    if (state === 'ok')         { el.classList.add('ok');  el.textContent = '✓ Connecté — dernier envoi réussi'; }
+    else if (state === 'err')   { el.classList.add('err'); el.textContent = '✗ Erreur lors du dernier envoi'; }
+    else if (state === 'configured') { el.textContent = 'URL configurée — pas encore testé'; }
+    else                        { el.textContent = 'Non configuré'; }
   }
-
-  if (scriptUrl) updateStatusPill('idle');
 </script>
 </body>
 </html>
