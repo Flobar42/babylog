@@ -89,6 +89,21 @@
 
   .sheet-config input::placeholder { color: var(--muted); }
 
+  .last-log {
+    background: var(--warm);
+    padding: 10px 24px;
+    font-size: 12px;
+    color: var(--muted);
+    border-bottom: 1px solid var(--soft);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .last-log strong {
+    color: var(--ink);
+  }
+
   .status-pill {
     font-size: 10px;
     padding: 4px 10px;
@@ -330,6 +345,55 @@
   .history::-webkit-scrollbar { width: 3px; }
   .history::-webkit-scrollbar-track { background: transparent; }
   .history::-webkit-scrollbar-thumb { background: var(--soft); border-radius: 10px; }
+
+  /* Last log banner */
+  .last-log {
+    background: var(--card);
+    border-bottom: 1px solid var(--soft);
+    padding: 10px 24px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-height: 42px;
+  }
+  .last-log .ll-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+  .last-log .ll-content {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex: 1;
+  }
+  .last-log .ll-emoji { font-size: 18px; }
+  .last-log .ll-type {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--ink);
+  }
+  .last-log .ll-time {
+    font-size: 12px;
+    color: var(--muted);
+  }
+  .last-log .ll-notes {
+    font-size: 11px;
+    color: var(--muted);
+    font-style: italic;
+  }
+  .last-log .ll-empty {
+    font-size: 12px;
+    color: var(--muted);
+  }
+  .last-log .ll-ago {
+    font-size: 11px;
+    color: var(--accent);
+    margin-left: auto;
+    white-space: nowrap;
+  }
 </style>
 </head>
 <body>
@@ -339,10 +403,21 @@
   <span class="date" id="headerDate"></span>
 </header>
 
+<div class="last-log" id="lastLog" style="display:none">
+  <span id="lastLogText"></span>
+</div>
+
 <div class="sheet-config">
   <label>Google Script URL</label>
   <input type="url" id="scriptUrl" placeholder="https://script.google.com/macros/s/…/exec" />
   <span class="status-pill" id="statusPill">non configuré</span>
+</div>
+
+<div class="last-log" id="lastLog">
+  <span class="ll-label">Dernier</span>
+  <div class="ll-content">
+    <span class="ll-empty">Aucun événement aujourd'hui</span>
+  </div>
 </div>
 
 <div class="main">
@@ -415,11 +490,18 @@
   setNow();
   updateHeaderDate();
   renderHistory();
+  renderLastLog();
 
   document.getElementById('scriptUrl').addEventListener('input', e => {
     scriptUrl = e.target.value.trim();
     localStorage.setItem('babylog_url', scriptUrl);
     updateStatusPill('idle');
+  });
+
+  // Détecter si l'utilisateur a modifié l'heure manuellement
+  let timeManuallySet = false;
+  document.getElementById('timeInput').addEventListener('change', () => {
+    timeManuallySet = true;
   });
 
   // ── Time helpers ───────────────────────────────────────
@@ -428,6 +510,7 @@
     const h = String(now.getHours()).padStart(2, '0');
     const m = String(now.getMinutes()).padStart(2, '0');
     document.getElementById('timeInput').value = `${h}:${m}`;
+    timeManuallySet = false;
   }
 
   function updateHeaderDate() {
@@ -449,6 +532,8 @@
 
   // ── Log event ──────────────────────────────────────────
   async function log(type, emoji, btn) {
+    // Auto-update time unless manually set
+    if (!timeManuallySet) setNow();
     // Ripple
     const ripple = document.createElement('span');
     ripple.classList.add('ripple');
@@ -466,6 +551,7 @@
     entries.unshift(entry);
     saveEntries();
     renderHistory();
+    renderLastLog();
     showToast(`${emoji} ${type} enregistré à ${time}`);
     document.getElementById('notes').value = '';
 
@@ -489,11 +575,50 @@
   }
 
   // ── Render ─────────────────────────────────────────────
+  function renderLastLog() {
+    const container = document.getElementById('lastLog');
+    if (!entries.length) return;
+    const last = entries[0];
+    // Compute time ago
+    const now = new Date();
+    const [h, m] = last.time.replace('h', ':').split(':');
+    const then = new Date();
+    then.setHours(parseInt(h), parseInt(m), 0, 0);
+    const diffMin = Math.round((now - then) / 60000);
+    let ago = '';
+    if (diffMin < 1) ago = 'à l'instant';
+    else if (diffMin < 60) ago = `il y a ${diffMin} min`;
+    else { const hrs = Math.floor(diffMin / 60); const mins = diffMin % 60; ago = `il y a ${hrs}h${mins > 0 ? mins : ''}`; }
+
+    container.innerHTML = `
+      <span class="ll-label">Dernier</span>
+      <div class="ll-content">
+        <span class="ll-emoji">${last.emoji}</span>
+        <span class="ll-type">${last.type}</span>
+        <span class="ll-time">${last.time}</span>
+        ${last.notes ? `<span class="ll-notes">— ${last.notes}</span>` : ''}
+        <span class="ll-ago">${ago}</span>
+      </div>
+    `;
+  }
+
+  // Refresh "il y a X min" every minute
+  setInterval(renderLastLog, 60000);
+
   function renderHistory() {
     const container = document.getElementById('history');
     // Filter today
     const today = new Date().toLocaleDateString('fr-FR');
     const todayEntries = entries.filter(e => e.date === today);
+
+    // Update last log banner
+    if (entries.length > 0) {
+      const last = entries[0];
+      const banner = document.getElementById('lastLog');
+      const text = document.getElementById('lastLogText');
+      text.innerHTML = `Dernier log — <strong>${last.emoji} ${last.type}</strong> à <strong>${last.time}</strong>${last.notes ? ' · ' + last.notes : ''}`;
+      banner.style.display = 'flex';
+    }
 
     if (todayEntries.length === 0) {
       container.innerHTML = '<div class="empty-history">Aucune entrée pour le moment</div>';
